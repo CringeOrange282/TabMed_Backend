@@ -3,15 +3,16 @@ version: '3.8'
 services:
   db:
     image: postgres:18
+    container_name: tabmed_backend-db-1
     restart: always
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1111
-      POSTGRES_DB: TabMed
+      POSTGRES_PASSWORD: "0984"
+      POSTGRES_DB: tabmed_db
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
