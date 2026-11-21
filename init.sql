@@ -51,7 +51,7 @@ CREATE TABLE public.medications (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     name character varying(100) NOT NULL,
     manufacturer character varying(100) NOT NULL,
-    tablet form character varying(50) NOT NULL
+    tablet_form character varying(50) NOT NULL
 );
 ALTER TABLE public.medications OWNER TO postgres;
 

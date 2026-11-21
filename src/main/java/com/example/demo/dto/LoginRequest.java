@@ -12,7 +12,7 @@ public class LoginRequest {
         return email;
     }
 
-    public void setEmail(String login) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
