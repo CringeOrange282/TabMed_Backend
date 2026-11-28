@@ -26,8 +26,9 @@ public class User {
     @Column(name = "emergency_contact", length = 150)
     private String emergencyContact;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", length = 20, nullable = false)
-    private String role;
+    private Role role;
 
     public User() {}
 
@@ -43,6 +44,6 @@ public class User {
     public void setPassword(String password) { this.password = password; }
     public String getEmergencyContact() { return emergencyContact; }
     public void setEmergencyContact(String emergencyContact) { this.emergencyContact = emergencyContact; }
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 }

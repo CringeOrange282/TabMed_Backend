@@ -21,7 +21,7 @@ CREATE TABLE public.users (
     password character varying(255) NOT NULL,
     emergency_contact character varying(150),
     role character varying(20) NOT NULL,
-    CONSTRAINT chk_user_role CHECK (((role)::text = ANY ((ARRAY['Пациент'::character varying, 'Родственник'::character varying, 'Сиделка'::character varying])::text[])))
+    CONSTRAINT chk_user_role CHECK (role IN ('PATIENT', 'RELATIVE', 'CAREGIVER') )
 );
 ALTER TABLE public.users OWNER TO postgres;
 
@@ -85,7 +85,7 @@ CREATE TABLE public.medication_history (
     taken_at timestamp with time zone NOT NULL,
     status character varying(20) NOT NULL,
     plan_id uuid NOT NULL,
-    CONSTRAINT chk_status CHECK (((status)::text = ANY ((ARRAY['Принято'::character varying, 'Пропущено'::character varying])::text[])))
+    CONSTRAINT chk_status CHECK (status IN ('TAKEN', 'MISSED'))
 );
 ALTER TABLE public.medication_history OWNER TO postgres;
 
@@ -95,7 +95,7 @@ ALTER TABLE ONLY public.health_metrics ADD CONSTRAINT health_metrics_pkey PRIMAR
 ALTER TABLE ONLY public.medication_history ADD CONSTRAINT medication_history_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.medication_plans ADD CONSTRAINT medication_plans_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.medications ADD CONSTRAINT medications_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public.medications ADD CONSTRAINT uq_medication_name UNIQUE (name);
+ALTER TABLE ONLY public.medications ADD CONSTRAINT uq_medication_full UNIQUE (name, manufacturer, tablet_form);
 ALTER TABLE ONLY public.users ADD CONSTRAINT users_email_key UNIQUE (email);
 ALTER TABLE ONLY public.users ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.prescriptions ADD CONSTRAINT prescriptions_pkey PRIMARY KEY (id);

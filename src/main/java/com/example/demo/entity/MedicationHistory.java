@@ -15,8 +15,9 @@ public class MedicationHistory {
     @Column(name = "taken_at", nullable = false)
     private OffsetDateTime takenAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private Status status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id", nullable = false)
@@ -28,8 +29,8 @@ public class MedicationHistory {
     public void setId(UUID id) { this.id = id; }
     public OffsetDateTime getTakenAt() { return takenAt; }
     public void setTakenAt(OffsetDateTime takenAt) { this.takenAt = takenAt; }
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
     public MedicationPlan getPlan() { return plan; }
     public void setPlan(MedicationPlan plan) { this.plan = plan; }
 }
