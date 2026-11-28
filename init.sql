@@ -89,6 +89,14 @@ CREATE TABLE public.medication_history (
 );
 ALTER TABLE public.medication_history OWNER TO postgres;
 
+-- Table: refresh_tokens
+CREATE TABLE public.refresh_tokens (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    token character varying(255) NOT NULL,
+    expiry_date timestamp with time zone NOT NULL,
+    user_id uuid NOT NULL
+);
+
 -- Constraints
 ALTER TABLE ONLY public.devices ADD CONSTRAINT devices_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.health_metrics ADD CONSTRAINT health_metrics_pkey PRIMARY KEY (id);
@@ -99,6 +107,9 @@ ALTER TABLE ONLY public.medications ADD CONSTRAINT uq_medication_full UNIQUE (na
 ALTER TABLE ONLY public.users ADD CONSTRAINT users_email_key UNIQUE (email);
 ALTER TABLE ONLY public.users ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY public.prescriptions ADD CONSTRAINT prescriptions_pkey PRIMARY KEY (id);
+• ALTER TABLE ONLY public.refresh_tokens ADD CONSTRAINT refresh_tokens_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.refresh_tokens ADD CONSTRAINT uq_refresh_tokens UNIQUE (token);
+
 
 -- Foreign Keys
 ALTER TABLE ONLY public.devices ADD CONSTRAINT fk_devices_user FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
@@ -107,3 +118,4 @@ ALTER TABLE ONLY public.medication_history ADD CONSTRAINT fk_plan_id FOREIGN KEY
 ALTER TABLE ONLY public.medication_plans ADD CONSTRAINT fk_plan_medication FOREIGN KEY (medication_id) REFERENCES public.medications(id) ON DELETE RESTRICT;
 ALTER TABLE ONLY public.prescriptions ADD CONSTRAINT fk_prescription_user FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 ALTER TABLE ONLY public.medication_plans ADD CONSTRAINT fk_plan_prescription FOREIGN KEY (prescription_id) REFERENCES public.prescriptions(id) ON DELETE CASCADE;
+ALTER TABLE ONLY public.refresh_tokens ADD CONSTRAINT fk_refresh_tokens_user FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
